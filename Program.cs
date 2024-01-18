@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -199,6 +200,17 @@ namespace Edabit
             //GetFrame(10, 3, '*');
             //Console.WriteLine("--------------------------------");
             //GetFrame(2, 5, '0');
+
+            //  Console.WriteLine( TitleToNumber("A"));
+            //Console.WriteLine( TitleToNumber("R"));
+            //  Console.WriteLine(TitleToNumber("AB"));
+            //Console.WriteLine(smallerNum("21", "44"));
+            //Console.WriteLine(smallerNum("1500", "1"));
+            //Console.WriteLine(smallerNum("1500", "1"));
+            //Console.WriteLine(MajorSum([ 1, 2, 3, 4, 0, 0, -3, -2]));
+            //Console.WriteLine(MajorSum([-4, -8, -12, -3, 4, 7, 1, 3, 0, 0, 0, 0]));
+            //Console.WriteLine(MajorSum([0, 0, 0, 0, 0, 1, 2, -3]));
+
             #endregion
             #region ReverseCoding
             /*
@@ -233,7 +245,7 @@ namespace Edabit
             Console.WriteLine(ReverseCoding02(17));
             Console.WriteLine(ReverseCoding02(24));
              */
-       
+
 
             /* 
               This is a reverse coding challenge. Normally you're given explicit directions with how to create a function. 
@@ -253,6 +265,9 @@ namespace Edabit
             Console.WriteLine(ReverseCoding03(19));
             Console.WriteLine(ReverseCoding03(9));
              */
+
+
+
             #endregion
 
         }
@@ -634,9 +649,9 @@ namespace Edabit
         public static int gcd(int n1, int n2)
         {
             int GCD = 0;
-            for(int i = 1; i <= n1; i++)
+            for (int i = 1; i <= n1; i++)
             {
-                if((n1 % i) == 0 && (n2%i)==0)
+                if ((n1 % i) == 0 && (n2 % i) == 0)
                 { GCD = i; }
             }
 
@@ -686,7 +701,7 @@ namespace Edabit
                 else
                     continue;
             }
-            return $"  LETTERS = {numberOfLetters},DIGITS = {numberOfDigits}";
+            return "{ LETTERS = " + numberOfLetters + ",DIGITS = " + numberOfDigits + "} ";
         }
         public static bool CheckPerfect(int num)
         {
@@ -768,8 +783,6 @@ namespace Edabit
 
             return result;
         }
-
-        // 3
         public static string Simplify(string str)
         {
             string result = string.Empty;
@@ -984,6 +997,85 @@ namespace Edabit
             }
 
             return result;
+        }
+
+        public static int TitleToNumber(string str)
+        {
+            var capitalchars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToArray();
+            if(!(str.Length >= 1 && str.Length <=7))
+            {
+                return 0;
+            }
+            int index = 0;
+            switch (str.Length)
+            {
+                case 1:
+                     index = Array.IndexOf(capitalchars, str[0] )+1;
+                    return index;
+                case 2:
+                    var secondLetter = str.Substring(1);
+                    index = Array.IndexOf(capitalchars, secondLetter[0]) + 27;
+                    return index;
+            }
+            return 0;
+        }
+        public static string smallerNum(string n1, string n2)
+        {
+            byte[] n1Bytes = Encoding.ASCII.GetBytes(n1);
+            byte[] n2Bytes = Encoding.ASCII.GetBytes(n2);
+            int sumofn1Bytes =0 , sumofn2Bytes =0 ;
+            for (int i = 0; i < n1.Length; i++)
+            {
+                sumofn1Bytes += n1[i];
+            }
+            for (int i = 0; i < n2.Length; i++)
+            {
+                sumofn2Bytes += n2[i];
+            }
+            if(sumofn1Bytes > sumofn2Bytes)
+                return n2;
+            return n1;
+        }
+
+        public static int MajorSum(int[] arr)
+        {
+            int PostaiveSum = 0, negativeSum = 0, ZeroCount = 0;
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i]> 0)
+                    PostaiveSum += arr[i];
+                else if (arr[i]< 0)
+                    negativeSum += arr[i];
+                else 
+                    ZeroCount++;
+            }
+            int abslutevalueOfNegativeSum = negativeSum * -1;
+            if(PostaiveSum > ZeroCount)
+            {
+                if(PostaiveSum > abslutevalueOfNegativeSum)
+                {
+                    return PostaiveSum;
+                }
+                else
+                {
+                    return abslutevalueOfNegativeSum * -1;
+                }
+            }
+            else
+            {
+                if (ZeroCount > abslutevalueOfNegativeSum)
+                {
+                    return ZeroCount;
+                }
+                else
+                {
+                    return abslutevalueOfNegativeSum *-1;
+                }
+            }
+  
+
+
         }
     }
 }
